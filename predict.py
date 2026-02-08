@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 import joblib
 import pandas as pd
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 model = joblib.load("models/Student performance model.pkl")
 feature_names = model.feature_names_in_
