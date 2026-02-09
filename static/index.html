@@ -1,35 +1,102 @@
 <!DOCTYPE html>
 <html>
+<head>
+<title>Student Performance Predictor</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.box {
+    background: white;
+    padding: 25px;
+    width: 320px;
+    border-radius: 10px;
+}
+
+input, select, button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px;
+}
+
+button {
+    background: black;
+    color: white;
+    border: none;
+}
+</style>
+</head>
+
 <body>
 
-<h2>Student Predictor</h2>
+<div class="box">
 
-<input id="age" placeholder="Age"><br><br>
-<input id="internet" placeholder="Internet (1 or 0)"><br><br>
-<input id="score" placeholder="Previous Score"><br><br>
+<h3>Student Performance</h3>
+
+<select id="Gender">
+<option>Male</option>
+<option>Female</option>
+</select>
+
+<input id="Study_Hours_per_Week" type="number" placeholder="Study Hours Per Week">
+
+<input id="Attendance_Rate" type="number" placeholder="Attendance Rate">
+
+<input id="Past_Exam_Scores" type="number" placeholder="Past Exam Score">
+
+<select id="Parental_Education_Level">
+<option>High School</option>
+<option>University</option>
+<option>Postgraduate</option>
+</select>
+
+<select id="Internet_Access_at_Home">
+<option>Yes</option>
+<option>No</option>
+</select>
+
+<select id="Extracurricular_Activities">
+<option>Yes</option>
+<option>No</option>
+</select>
 
 <button onclick="predict()">Predict</button>
 
 <p id="result"></p>
 
+</div>
+
 <script>
 async function predict() {
 
-let data = {
- age: Number(age.value),
- Internet_access: Number(internet.value),
- "Previous exam score": Number(score.value)
+const data = {
+ Gender: Gender.value,
+ Study_Hours_per_Week: Number(Study_Hours_per_Week.value),
+ Attendance_Rate: Number(Attendance_Rate.value),
+ Past_Exam_Scores: Number(Past_Exam_Scores.value),
+ Parental_Education_Level: Parental_Education_Level.value,
+ Internet_Access_at_Home: Internet_Access_at_Home.value,
+ Extracurricular_Activities: Extracurricular_Activities.value
 };
 
-let res = await fetch("/predict", {
- method:"POST",
- headers:{"Content-Type":"application/json"},
+const res = await fetch("/predict", {
+ method: "POST",
+ headers: {"Content-Type": "application/json"},
  body: JSON.stringify(data)
 });
 
-let out = await res.json();
+const out = await res.json();
 
-result.innerText = JSON.stringify(out);
+document.getElementById("result").innerText =
+    "Prediction: " + JSON.stringify(out);
+
 }
 </script>
 
